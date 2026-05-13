@@ -134,7 +134,7 @@ def get_client_ip():
 
 def require_login():
     if "user" not in session:
-        return redirect(url_for("admin"))
+        return redirect(url_for("painel"))
     return None
 
 
@@ -415,9 +415,14 @@ def cookie_consent(choice):
     return response
 
 
-@app.route("/admin", methods=["GET", "POST"])
-@limiter.limit("5 per minute", methods=["POST"])
+@app.route("/admin")
 def admin():
+    return render_template("fake_admin.html")
+
+
+@app.route("/painel-anchieta", methods=["GET", "POST"])
+@limiter.limit("5 per minute", methods=["POST"])
+def painel():
     if "user" in session:
         return redirect(url_for("dashboard"))
     error = None
