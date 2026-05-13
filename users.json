@@ -1,10 +1,10 @@
 {
   "admin": {
-    "password": "anchieta123",
+    "password": "$2b$12$kgwlHKjzmnfD4mVE5b.0SOTB.xsc1Dhuo.FwluMcK0V57Cs124nNe",
     "role": "administrator"
   },
   "analista": {
-    "password": "cyber2026",
+    "password": "$2b$12$v7EuO7hFmAJxpVdiAULm8uCr9PcWJ6ASzFE.obKOrEI1IfYen/CNS",
     "role": "security_analyst"
   }
 }

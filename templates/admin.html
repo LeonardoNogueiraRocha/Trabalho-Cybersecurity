@@ -5,6 +5,7 @@
   <h1>Login administrativo</h1>
   <p class="muted">Acesso restrito a operadores autorizados.</p>
   <form method="post" class="login-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>Usuário
       <input type="text" name="username" placeholder="Seu usuário">
     </label>
@@ -13,7 +14,13 @@
     </label>
     <button class="btn primary" type="submit">Entrar</button>
   </form>
-  {% if error %}
+  {% if zoeira %}
+    <div style="text-align:center; margin-top: 1.5rem;">
+      <img src="{{ url_for('static', filename='senha.png') }}"
+           alt="Ta de zoeira né"
+           style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.5);">
+    </div>
+  {% elif error %}
     <p class="error">{{ error }}</p>
   {% endif %}
   <p class="tiny">Último usuário de teste: admin</p>

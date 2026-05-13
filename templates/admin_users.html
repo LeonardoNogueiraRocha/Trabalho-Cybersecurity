@@ -21,6 +21,7 @@
     <article class="glass panel section-card">
       <h2>Criar novo usuário</h2>
       <form method="post" class="login-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="action" value="create">
         <label>Usuário
           <input type="text" name="username" placeholder="ex.: visitante01">
@@ -43,6 +44,7 @@
     <article class="glass panel section-card">
       <h2>Redefinir senha</h2>
       <form method="post" class="login-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="action" value="update_password">
         <label>Usuário
           <input type="text" name="target_user" placeholder="nome do usuário">
@@ -76,6 +78,7 @@
             <td>{{ user.role }}</td>
             <td>
               <form method="post" class="inline-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="target_user" value="{{ user.username }}">
                 <button class="btn danger" type="submit">Excluir</button>
