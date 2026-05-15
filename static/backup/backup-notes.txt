@@ -1,4 +1,0 @@
-Notas internas do backup
-- revisar credenciais padrão
-- remover listagem pública após a aula prática
-- checar arquivos antigos antes da publicação final
