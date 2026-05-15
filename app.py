@@ -32,15 +32,10 @@ def set_security_headers(response):
     return response
 
 
-USERS = {
-    "admin": {"password": "anchieta123", "role": "administrator"},
-    "analista": {"password": "cyber2026", "role": "security_analyst"},
-}
-
 REPORTS = {
-    1: {"owner": "Equipe Alpha", "title": "Relatório Interno 01", "content": "Checklist de exposição de portas e serviços."},
-    2: {"owner": "Equipe Beta", "title": "Relatório Interno 02", "content": "Não deixar diretórios sensíveis acessíveis."},
-    3: {"owner": "Equipe Gama", "title": "Relatório Interno 03", "content": "Evitar credenciais padrão em produção."},
+    "e7a2f1d9-4b3c-4e8a-b6f2-1c9d5e3a7b0f": {"num": 1, "owner": "Equipe Alpha", "title": "Relatório Interno 01", "content": "Checklist de exposição de portas e serviços."},
+    "a3c8b5e2-9f1d-4a7c-e2b8-5d6f3c9a1e4b": {"num": 2, "owner": "Equipe Beta", "title": "Relatório Interno 02", "content": "Não deixar diretórios sensíveis acessíveis."},
+    "f1d6e3a8-2c5b-4f9d-a1c7-8e4b2f5d9c3a": {"num": 3, "owner": "Equipe Gama", "title": "Relatório Interno 03", "content": "Evitar credenciais padrão em produção."},
 }
 
 USERS_FILE = os.path.join(app.root_path, "users.json")
@@ -70,12 +65,14 @@ def is_bcrypt_hash(value: str) -> bool:
 
 def seed_users_file():
     if not os.path.exists(USERS_FILE):
+        analyst_password = secrets.token_urlsafe(16)
         hashed = {
-            username: {"password": hash_password(data["password"]), "role": data["role"]}
-            for username, data in USERS.items()
+            "analista": {"password": hash_password(analyst_password), "role": "administrator"},
         }
         with open(USERS_FILE, "w", encoding="utf-8") as f:
             json.dump(hashed, f, ensure_ascii=False, indent=2)
+        print(f"[INIT] Usuário 'analista' criado com senha: {analyst_password}")
+        print("[INIT] Altere a senha imediatamente após o primeiro acesso.")
 
 
 def migrate_passwords():
@@ -454,24 +451,25 @@ def dashboard():
     return render_template("dashboard.html", user=session["user"], role=users[session["user"]]["role"])
 
 
+PROFILES = {
+    "b4d2e9a1-7f3c-4d8b-a5e1-2c8f6b3d9a4e": {"name": "Equipe Alpha", "sector": "SOC", "email": "alpha@anchieta.lab"},
+    "c1f8d3b6-2e5a-4c9f-b7d3-8a1e4c6f2b9d": {"name": "Equipe Beta", "sector": "Blue Team", "email": "beta@anchieta.lab"},
+    "d9e4c7a2-5b1f-4e3d-c8a6-4f2b7d1e9c5a": {"name": "Equipe Gama", "sector": "Red Team", "email": "gama@anchieta.lab"},
+}
+
+
 @app.route("/profile")
 def profile():
     guard = require_login()
     if guard:
         return guard
-    user_id = request.args.get("id", "1")
-    profiles = {
-        "1": {"name": "Equipe Alpha", "sector": "SOC", "email": "alpha@anchieta.lab"},
-        "2": {"name": "Equipe Beta", "sector": "Blue Team", "email": "beta@anchieta.lab"},
-        "3": {"name": "Equipe Gama", "sector": "Red Team", "email": "gama@anchieta.lab"},
-    }
-    if user_id not in profiles:
-        return render_template("profile.html", profile=None, user_id=user_id, zoeira=True)
-    profile_data = profiles.get(user_id, profiles["1"])
-    return render_template("profile.html", profile=profile_data, user_id=user_id, zoeira=False)
+    profile_key = request.args.get("id", "")
+    if profile_key not in PROFILES:
+        return render_template("profile.html", profile=None, zoeira=True)
+    return render_template("profile.html", profile=PROFILES[profile_key], zoeira=False)
 
 
-@app.route("/report/<int:report_id>")
+@app.route("/report/<string:report_id>")
 def report(report_id):
     guard = require_login()
     if guard:
@@ -479,12 +477,12 @@ def report(report_id):
     report_data = REPORTS.get(report_id)
     if not report_data:
         abort(404)
-    return render_template("report.html", report=report_data, report_id=report_id)
+    return render_template("report.html", report=report_data, report_id=report_data["num"])
 
 
 @app.route("/records")
 def records():
-    guard = require_login()
+    guard = require_admin_role()
     if guard:
         return guard
     conn = get_data_connection()
@@ -497,7 +495,7 @@ def records():
 
 @app.route("/tickets")
 def tickets():
-    guard = require_login()
+    guard = require_admin_role()
     if guard:
         return guard
     conn = get_data_connection()
@@ -510,16 +508,13 @@ def tickets():
 
 @app.route("/server-status")
 def status():
-    guard = require_login()
+    guard = require_admin_role()
     if guard:
         return guard
     data = {
-        "framework": "Flask 3.x (dev)",
-        "server": "Werkzeug dev server",
-        "environment": "laboratorio",
-        "debug": False,
-        "port": 5000,
-        "notes": "Monitoramento temporariamente exposto para testes."
+        "service": "Laboratório Anchieta",
+        "status": "online",
+        "uptime": "disponível",
     }
     return render_template("status.html", data=data)
 
@@ -539,19 +534,6 @@ def backup_file(filename):
     if guard:
         return guard
     return send_from_directory(BACKUP_DIR, filename, as_attachment=False)
-
-
-@app.route("/internal-api")
-def internal_api():
-    guard = require_login()
-    if guard:
-        return guard
-    return {
-        "status": "active",
-        "message": "endpoint de teste ainda habilitado",
-        "version": "dev-0.9",
-        "note": "remover antes da versão final"
-    }
 
 
 @app.route("/api/health")

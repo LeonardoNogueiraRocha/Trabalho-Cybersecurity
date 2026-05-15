@@ -3,8 +3,7 @@
 {% block content %}
 <section class="glass panel">
   <h1>Perfil da equipe</h1>
-  <p class="muted">ID consultado: {{ user_id }}</p>
-  {% if zoeira %}
+{% if zoeira %}
   <div style="text-align:center; margin-top:1.5rem;">
     <p class="muted" style="margin-bottom:1rem;">Tentando enumerar IDs que não existem? Criativo, mas não vai rolar kkk</p>
     <img src="{{ url_for('static', filename='logs/SENHA.png') }}"
