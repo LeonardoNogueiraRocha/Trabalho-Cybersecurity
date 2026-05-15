@@ -131,7 +131,7 @@ def get_client_ip():
 
 def require_login():
     if "user" not in session:
-        return redirect(url_for("painel"))
+        return redirect(url_for("admin"))
     return None
 
 
