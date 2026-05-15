@@ -1,6 +1,10 @@
 {
+  "admin": {
+    "password": "$2b$12$53Lfw3p24VEtHaIZlcx6j.fRzxz0c6X2i1SbirY5RGEiBm5r4FxAe",
+    "role": "administrator"
+  },
   "analista": {
     "password": "$2b$12$v7EuO7hFmAJxpVdiAULm8uCr9PcWJ6ASzFE.obKOrEI1IfYen/CNS",
-    "role": "administrator"
+    "role": "security_analyst"
   }
 }
