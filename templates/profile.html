@@ -3,14 +3,8 @@
 {% block content %}
 <section class="glass panel">
   <h1>Perfil da equipe</h1>
-{% if zoeira %}
-  <div style="text-align:center; margin-top:1.5rem;">
-    <p class="muted" style="margin-bottom:1rem;">Tentando enumerar IDs que não existem? Criativo, mas não vai rolar kkk</p>
-    <img src="{{ url_for('static', filename='logs/SENHA.png') }}"
-         alt="Ta de zoeira né"
-         style="max-width: 480px; width:100%; border-radius: 14px; box-shadow: 0 4px 32px rgba(0,0,0,0.6);">
-  </div>
-  {% else %}
+  <p class="muted">ID consultado: {{ user_id }}</p>
+  {% if not zoeira %}
   <div class="profile-grid">
     <div>
       <h3>{{ profile.name }}</h3>
@@ -19,6 +13,8 @@
     </div>
     <div class="badge-box">Acesso básico</div>
   </div>
+  {% else %}
+  <p class="muted">Perfil não encontrado.</p>
   {% endif %}
 </section>
 {% endblock %}

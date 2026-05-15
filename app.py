@@ -423,7 +423,6 @@ def painel():
     if "user" in session:
         return redirect(url_for("dashboard"))
     error = None
-    zoeira = False
     if request.method == "POST":
         username = request.form.get("username", "")
         pwd = request.form.get("password", "")
@@ -432,8 +431,7 @@ def painel():
             session["user"] = username
             return redirect(url_for("dashboard"))
         error = "Credenciais inválidas."
-        zoeira = True
-    return render_template("admin.html", error=error, zoeira=zoeira)
+    return render_template("admin.html", error=error)
 
 
 @app.route("/logout")

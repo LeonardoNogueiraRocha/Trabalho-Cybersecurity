@@ -3,10 +3,7 @@
 {% block content %}
 <section class="glass panel" style="text-align:center; padding: 2rem;">
   <h1 style="font-size:2rem; margin-bottom:0.5rem;">403 — Acesso Negado</h1>
-  <p class="muted" style="margin-bottom:1.5rem;">Você tentou acessar algo que não é pra você. Tentou ser espertinho, né?</p>
-  <img src="{{ url_for('static', filename='logs/SENHA.png') }}"
-       alt="Ta de zoeira né"
-       style="max-width: 480px; width:100%; border-radius: 14px; box-shadow: 0 4px 32px rgba(0,0,0,0.6);">
+  <p class="muted">Você não tem permissão para acessar este recurso.</p>
   <p style="margin-top:1.5rem;">
     <a href="{{ url_for('index') }}" class="btn primary">Voltar ao início</a>
   </p>

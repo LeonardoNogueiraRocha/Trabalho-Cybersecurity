@@ -8,22 +8,15 @@
     <button class="btn primary" type="submit">Buscar</button>
   </form>
 
-  {% if zoeira %}
-  <div style="text-align:center; margin-top:1.5rem;">
-    <p class="muted" style="margin-bottom:1rem;">Tentando injetar script, né? Boa sorte com isso kkk</p>
-    <img src="{{ url_for('static', filename='logs/SENHA.png') }}"
-         alt="Ta de zoeira né"
-         style="max-width: 480px; width:100%; border-radius: 14px; box-shadow: 0 4px 32px rgba(0,0,0,0.6);">
-  </div>
-  {% else %}
+  {% if not zoeira %}
   <p class="muted">Resultado para: <strong>{{ q }}</strong></p>
-{% if prova %}
-<div class="panel glass highlight">
-  <span class="tag">DOCUMENTO INTERNO</span>
-  <h2>{{ prova.title }}</h2>
-  <p>{{ prova.content }}</p>
-</div>
-{% endif %}
+  {% if prova %}
+  <div class="panel glass highlight">
+    <span class="tag">DOCUMENTO INTERNO</span>
+    <h2>{{ prova.title }}</h2>
+    <p>{{ prova.content }}</p>
+  </div>
+  {% endif %}
 
   <div class="cards compact">
     {% for item in sample %}

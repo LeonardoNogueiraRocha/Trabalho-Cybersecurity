@@ -2,12 +2,8 @@
 {% block title %}Muitas tentativas{% endblock %}
 {% block content %}
 <section class="glass panel" style="text-align:center; padding: 2rem;">
-  <h1 style="font-size:2rem; margin-bottom:0.5rem;">429 — Calma aí, hacker</h1>
-  <p class="muted" style="margin-bottom:1.5rem;">Muitas tentativas de login em pouco tempo. Força bruta? Aqui não, meu chapa.</p>
-  <img src="{{ url_for('static', filename='logs/SENHA.png') }}"
-       alt="Ta de zoeira né"
-       style="max-width: 480px; width:100%; border-radius: 14px; box-shadow: 0 4px 32px rgba(0,0,0,0.6);">
-  <p class="muted" style="margin-top:1rem;">Aguarda um minuto e tenta de novo (com a senha certa dessa vez).</p>
+  <h1 style="font-size:2rem; margin-bottom:0.5rem;">429 — Muitas tentativas</h1>
+  <p class="muted">Número de tentativas excedido. Aguarde um momento e tente novamente.</p>
   <p style="margin-top:1rem;">
     <a href="{{ url_for('painel') }}" class="btn primary">Tentar novamente</a>
   </p>
